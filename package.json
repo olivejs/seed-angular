@@ -1,7 +1,13 @@
 {
   "name": "ginger",
   "version": "0.0.0",
-  "dependencies": {
+  "devDependencies": {
+    "browser-sync": "^2.7.13",
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-inject": "^1.3.1",
+    "gulp-sass": "^2.0.3",
+    "gulp-util": "^3.0.6",
     "wiredep": "^2.2.2"
   }
 }

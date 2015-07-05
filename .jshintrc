@@ -1,3 +1,13 @@
 {
-  "strict": "true"
+  "strict": true,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "latedef": true,
+  "noarg": true,
+  "undef": true,
+  "unused": true,
+  "globals": {
+    "angular": false
+  }
 }
