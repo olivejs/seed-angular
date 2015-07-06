@@ -3,7 +3,7 @@
  *  The list of variables are listed here:
  *  bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
  */
-@import 'bootstrap-overrides';
+@import 'overrides';
 
 /**
  *  Do not remove the comments bellow. It is the marker used by wiredep
@@ -16,7 +16,26 @@
  * Import generic styles here from `styles` directory, i.e. base styles, icons,
  * typography, that are not specific to individual page templates or directives.
  */
-@import 'browserupgrade';
+@import 'type';
+
+/**
+ * Beside imports, you can also add styles here.
+ */
+
+// Browser Upgrade Prompt
+.browserupgrade {
+  margin: 0.2em;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0.5em;
+}
+
+.jumbotron {
+  text-align: center;
+  img {
+    height: 100px;
+  }
+}
 
 /**
  *  Do not remove the comments bellow. It is the marker used by gulp-inject

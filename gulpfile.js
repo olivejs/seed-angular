@@ -102,7 +102,7 @@ gulp.task('watch', ['inject'], function() {
 gulp.task('serve', ['clean:tmp', 'watch'], function() {
   browserSync.init({
     server: {
-      baseDir: './.tmp',
+      baseDir: [config.paths.tmp, path.join(config.paths.src, 'assets')],
       routes: {
         '/bower_components': 'bower_components'
       }
