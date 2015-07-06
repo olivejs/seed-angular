@@ -41,13 +41,14 @@ gulp.task('styles', function() {
       return '@import "' + filePath + '";';
     },
     addRootSlash: false,
-    starttag: '/* inject:imports */',
-    endtag: '/* endinject */'
+    starttag: '// inject:scss',
+    endtag: '// endinject'
   };
 
   return gulp.src(
     path.join(config.paths.src, 'app/styles/app.scss'))
     .pipe(inject(sassFiles, injectOptions))
+    .pipe(wiredep())
     .pipe(sass(sassOptions)).on('error', errorHandler('Sass'))
     .pipe(gulp.dest(path.join(config.paths.tmp, 'css')));
 });
