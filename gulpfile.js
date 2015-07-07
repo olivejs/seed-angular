@@ -16,9 +16,9 @@ var path = require('path'),
  */
 var config = {
   paths: {
-    src: "src",
-    tmp: ".tmp",
-    dist: "dist"
+    src: 'src',
+    tmp: '.tmp',
+    dist: 'dist'
   }
 };
 
@@ -54,22 +54,34 @@ gulp.task('styles', function() {
 });
 
 /**
+ *
+ */
+gulp.task('scripts', function() {
+  return gulp.src(path.join(config.paths.src, 'app/**/*.js'));
+});
+
+/**
  * Inject stylesheets into `bower:css` and `inject:css`
  * and scripts into ...
  */
-gulp.task('inject', ['styles'], function() {
+gulp.task('inject', ['styles', 'scripts'], function() {
   var cssFiles = gulp.src([
     path.join(config.paths.tmp, 'css/**/*.css')
   ], { read: false });
 
+  var jsFiles = gulp.src([
+    path.join(config.paths.src, 'app/**/*.js')
+  ], { read: false });
+
   // make the path relative
   var injectOptions = {
-    ignorePath: [config.paths.tmp],
+    ignorePath: [path.join(config.paths.src, 'app'), config.paths.tmp],
     addRootSlash: false
   };
 
   return gulp.src(path.join(config.paths.src, '*.html'))
     .pipe(inject(cssFiles, injectOptions))  // inject:css
+    .pipe(inject(jsFiles, injectOptions))   // inject:js
     .pipe(wiredep())                        // bower:css
     .pipe(gulp.dest(config.paths.tmp));
 
@@ -82,7 +94,6 @@ gulp.task('inject', ['styles'], function() {
 gulp.task('watch', ['inject'], function() {
 
   // Watch for change in the root htmls (i.e. index.html) or in bower.json
-  //gulp.watch([path.join(config.paths.src, '*.html'), 'bower.json'], ['inject']);
   gulp.watch([path.join(config.paths.src, '*.html'), 'bower.json'], ['inject', browserSync.reload]);
 
   // Watch for change in sass
@@ -94,6 +105,20 @@ gulp.task('watch', ['inject'], function() {
     }
   });
 
+  // Watch for change in scripts
+  gulp.watch(path.join(config.paths.src, 'app/**/*.js'), function(event) {
+    if (event.type === 'changed') {
+      gulp.start('scripts', browserSync.reload);
+    } else {
+      gulp.start('inject', browserSync.reload);
+    }
+  });
+
+  // Watch for change in the html templates
+  gulp.watch([path.join(config.paths.src, 'app/**/*.html')], function(event) {
+    browserSync.reload(event.path);
+  });
+
 });
 
 /**
@@ -102,7 +127,7 @@ gulp.task('watch', ['inject'], function() {
 gulp.task('serve', ['clean:tmp', 'watch'], function() {
   browserSync.init({
     server: {
-      baseDir: [config.paths.tmp, path.join(config.paths.src, 'assets')],
+      baseDir: [config.paths.tmp, path.join(config.paths.src, 'assets'), path.join(config.paths.src, 'app')],
       routes: {
         '/bower_components': 'bower_components'
       }

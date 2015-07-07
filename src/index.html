@@ -1,38 +1,33 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html ng-app="application">
 <head>
   <meta charset="utf-8">
   <title></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
   <!-- bower:css -->
   <!-- endbower -->
 
   <!-- inject:css -->
   <!-- endinject -->
+
 </head>
 <body>
   <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div class="container">
-
-    <div class="jumbotron">
-      <h1>Hello, Ginger!</h1>
-      <img src="img/ginger.png" alt="Ginger">
-      <p>Always a pleasure scaffolding your apps.</p>
-      <p><a class="btn btn-lg btn-success" href="#" role="button">
-        Awesome!
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-      </a></p>
-    </div>
-
-  </div>
+  <div ng-view></div>
 
   <!-- bower:js -->
   <!-- endbower -->
+
+  <!-- inject:js -->
+  <!-- endinject -->
 
 </body>
 </html>
