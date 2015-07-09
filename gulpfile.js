@@ -5,6 +5,7 @@
 var path = require('path'),
     gulp = require('gulp'),
     sass = require('gulp-sass'),
+    jshint = require('gulp-jshint'),
     gutil = require('gulp-util'),
     inject = require('gulp-inject'),
     wiredep = require('wiredep').stream,
@@ -57,7 +58,9 @@ gulp.task('styles', function() {
  *
  */
 gulp.task('scripts', function() {
-  return gulp.src(path.join(config.paths.src, 'app/**/*.js'));
+  return gulp.src(path.join(config.paths.src, 'app/**/*.js'))
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 /**
