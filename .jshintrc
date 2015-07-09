@@ -11,7 +11,10 @@
   "quotmark": "single",
   "undef": true,
   "unused": true,
+  "jasmine": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "module": false,
+    "inject": false
   }
 }

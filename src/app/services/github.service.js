@@ -4,10 +4,27 @@
 
   angular
     .module('application')
-    .factory('Github', function($http) {
+    .factory('Github', function($q, $http, $window) {
       return {
         getRepo: function(name) {
-          return $http.get('https://api.github.com/repos/' + name);
+          return $q(function(resolve, reject) {
+            var repo = $window.localStorage.getItem('repo');
+            // If not cached, make a HTTP request and cache it
+            if (repo === null) {
+              $http.get('https://api.github.com/repos/' + name)
+                .success(function(data) {
+                  $window.localStorage.setItem('repo', JSON.stringify(data));
+                  resolve(data);
+                })
+                .error(function(data) {
+                  reject(data);
+                });
+            }
+            // If already cached, serve it from cache
+            else {
+              resolve(JSON.parse(repo));
+            }
+          });
         }
       };
     });

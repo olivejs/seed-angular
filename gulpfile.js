@@ -2,26 +2,19 @@
 
 'use strict';
 
-var path = require('path'),
+var fs = require('fs'),
+    path = require('path'),
     gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    jshint = require('gulp-jshint'),
-    gutil = require('gulp-util'),
-    inject = require('gulp-inject'),
+    $ = require('gulp-load-plugins')(),
     wiredep = require('wiredep').stream,
     browserSync = require('browser-sync'),
-    del = require('del');
+    del = require('del'),
+    karma = require('karma');
 
 /**
- * Configuration
+ * Ginger configuration
  */
-var config = {
-  paths: {
-    src: 'src',
-    tmp: '.tmp',
-    dist: 'dist'
-  }
-};
+var config = JSON.parse(fs.readFileSync('.gingerrc'));
 
 /**
  * Inject @imports and compile Sass
@@ -48,9 +41,9 @@ gulp.task('styles', function() {
 
   return gulp.src(
     path.join(config.paths.src, 'app/styles/app.scss'))
-    .pipe(inject(sassFiles, injectOptions))
+    .pipe($.inject(sassFiles, injectOptions))
     .pipe(wiredep())
-    .pipe(sass(sassOptions)).on('error', errorHandler('Sass'))
+    .pipe($.sass(sassOptions)).on('error', errorHandler('Sass'))
     .pipe(gulp.dest(path.join(config.paths.tmp, 'css')));
 });
 
@@ -59,8 +52,8 @@ gulp.task('styles', function() {
  */
 gulp.task('scripts', function() {
   return gulp.src(path.join(config.paths.src, 'app/**/*.js'))
-    .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 /**
@@ -73,7 +66,8 @@ gulp.task('inject', ['styles', 'scripts'], function() {
   ], { read: false });
 
   var jsFiles = gulp.src([
-    path.join(config.paths.src, 'app/**/*.js')
+    path.join(config.paths.src, 'app/**/*.js'),
+    path.join('!' + config.paths.src, 'app/**/*.spec.js')
   ], { read: false });
 
   // make the path relative
@@ -83,9 +77,9 @@ gulp.task('inject', ['styles', 'scripts'], function() {
   };
 
   return gulp.src(path.join(config.paths.src, '*.html'))
-    .pipe(inject(cssFiles, injectOptions))  // inject:css
-    .pipe(inject(jsFiles, injectOptions))   // inject:js
-    .pipe(wiredep())                        // bower:css
+    .pipe($.inject(cssFiles, injectOptions))  // inject:css
+    .pipe($.inject(jsFiles, injectOptions))   // inject:js
+    .pipe(wiredep())                          // bower:css
     .pipe(gulp.dest(config.paths.tmp));
 
   /* Important: While using both, `wiredep` should always run after `inject` in the pipe */
@@ -139,6 +133,17 @@ gulp.task('serve', ['clean:tmp', 'watch'], function() {
 });
 
 /**
+ * Test
+ */
+gulp.task('test', function() {
+  karma.server.start({
+    configFile: path.join(__dirname, 'karma.conf.js'),
+    autoWatch: true,
+    singleRun: false,
+  });
+});
+
+/**
  * Delete tmp directory
  */
 gulp.task('clean:tmp', function() {
@@ -180,7 +185,7 @@ gulp.task('default', [
  */
 function errorHandler(title) {
   return function(err) {
-    gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
+    $.gutil.log($.gutil.colors.red('[' + title + ']'), err.toString());
     this.emit('end');
   };
 }

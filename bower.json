@@ -5,5 +5,8 @@
     "angular": "~1.4.1",
     "bootstrap-sass": "~3.3.5",
     "angular-route": "~1.4.2"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.2"
   }
 }

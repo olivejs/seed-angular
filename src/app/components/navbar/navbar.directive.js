@@ -15,12 +15,12 @@
           $scope.repo.starsCount = '- -';
           $scope.repo.forksCount = '- -';
           Github.getRepo($scope.repo.name)
-            .success(function(data) {
+            .then(function(data) {
               $scope.repo.url = data.html_url;
               $scope.repo.starsCount = data.stargazers_count;
               $scope.repo.forksCount = data.forks_count;
             })
-            .error(function(data) {
+            .catch(function(data) {
               $log.warn('GitHub: ' + data.message);
             });
         }
