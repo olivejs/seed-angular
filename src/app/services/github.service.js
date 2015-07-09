@@ -6,8 +6,8 @@
     .module('application')
     .factory('Github', function($http) {
       return {
-        getUserInfo: function(username) {
-          return $http.get('https://api.github.com/users/' + username);
+        getRepo: function(name) {
+          return $http.get('https://api.github.com/repos/' + name);
         }
       };
     });
