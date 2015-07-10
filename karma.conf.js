@@ -5,7 +5,7 @@
 var fs = require('fs'),
     path = require('path'),
     wiredep = require('wiredep'),
-    config = JSON.parse(fs.readFileSync('.gingerrc'));
+    gingerConfig = JSON.parse(fs.readFileSync('.gingerrc'));
 
 function getFiles() {
   var wiredepOptions = {
@@ -17,13 +17,13 @@ function getFiles() {
   // bower js files and application js file
   return wiredep(wiredepOptions).js
     .concat([
-      path.join(config.paths.src, 'app/**/*.js')
+      path.join(gingerConfig.paths.src, 'app/**/*.js')
     ]);
 }
 
 module.exports = function(config) {
 
-  config.set({
+  var karmaConfig = {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -45,14 +45,21 @@ module.exports = function(config) {
     },
 
 
+    // generate code coverage using Istanbul
+    // https://github.com/karma-runner/karma-coverage
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage'
+    },
+
     // test results reporter to use
-    // possible values: 'dots', 'progress'
+    // possible values: 'dots', 'progress', 'coverage'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
-    port: 9876,
+    port: 3002,
 
 
     // enable / disable colors in the output (reporters and logs)
@@ -76,5 +83,12 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true
-  });
+  };
+
+  // source files, that you wanna generate coverage for
+  // do not include tests or libraries
+  // (these files will be instrumented by Istanbul)
+  karmaConfig.preprocessors[gingerConfig.paths.src + '/**/*.js'] = ['coverage'];
+
+  config.set(karmaConfig);
 };

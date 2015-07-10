@@ -16,7 +16,7 @@ Install npm and bower dependencies:
 ```
   npm install && bower install
 ```
-Run `gulp serve` for preview.
+Run `gulp serve` for preview. Run `gulp test` to launch the test runner. It will also generates the code coverage report in `coverage` directory.
 
 ## Directory Structure
 
