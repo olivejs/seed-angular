@@ -60,18 +60,19 @@ Run `gulp serve` for preview. Run `gulp test` to launch the test runner. It will
 └─readme.json
 ```
 
-| File/Directory    | Purpose |
-|-------------------|---------|
-| src/              | Contains your Angular application code. |
-| dist/             | Contains the distributable (that is, optimized and self-contained) output of your application. Deploy this to your server! |
-| .tmp/             | Various temporary output of build steps, as well as the debug output of your application. |
-| bower_components/ |	Bower dependencies. |
-| node_modules      | Node modules required for development purpose. |
-| .bowerrc          | Bower configuration. |
-| .editorconfig     | EditorConfig file. |
-| .gitignore        | Git configuration for ignored files. |
-| .jshintrc         | JSHint configuration |
-| bower.json        | Bower configuration and dependency list. |
-| gulpfile.js       | Contains build specification for Gulp. |
-| package.json      | NPM configuration. Mainly used to list the dependencies needed for asset compilation. |
-| readme.json       | This readme file. |
+File/Directory    | Purpose
+------------------|---------
+src/              | Contains your Angular application code.
+dist/             | Contains the distributable (that is, optimized and self-contained) output of your application. Deploy this to your server!
+.tmp/             | Various temporary output of build steps, as well as the debug output of your application.
+bower_components/ |	Bower dependencies.
+node_modules      | Node modules required for development purpose.
+.bowerrc          | Bower configuration.
+.editorconfig     | EditorConfig file.
+.gingerrc         | Ginger configuration.
+.gitignore        | Git configuration for ignored files.
+.jshintrc         | JSHint configuration
+bower.json        | Bower configuration and dependency list.
+gulpfile.js       | Contains build specification for Gulp.
+karma.conf.js     | Karma configuration
+package.json      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.

@@ -8,12 +8,12 @@
       return {
         getRepo: function(name) {
           return $q(function(resolve, reject) {
-            var repo = $window.localStorage.getItem('repo');
+            var repo = $window.sessionStorage.getItem('repo');
             // If not cached, make a HTTP request and cache it
             if (repo === null) {
               $http.get('https://api.github.com/repos/' + name)
                 .success(function(data) {
-                  $window.localStorage.setItem('repo', JSON.stringify(data));
+                  $window.sessionStorage.setItem('repo', JSON.stringify(data));
                   resolve(data);
                 })
                 .error(function(data) {
