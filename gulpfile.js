@@ -165,10 +165,84 @@ gulp.task('clean', function() {
 });
 
 /**
+ * Convert all angular html templates into a javascript template cache
+ */
+gulp.task('templates', function() {
+  return gulp.src(path.join(config.paths.src, 'app/**/*.html'))
+    .pipe($.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true
+    }))
+    .pipe($.angularTemplatecache({
+      module: 'application'
+    }))
+    .pipe(gulp.dest(path.join(config.paths.tmp, 'js')));
+});
+
+/**
+ * Build app html, css and js files
+ */
+gulp.task('app', ['inject', 'templates'], function() {
+  var templateFiles = gulp.src(path.join(config.paths.tmp, 'js/templates.js'), { read: false });
+  var injectOptions = {
+    starttag: '<!-- inject:templates -->',
+    ignorePath: config.paths.tmp,
+    addRootSlash: false
+  };
+
+  var htmlFilter = $.filter('*.html');
+  var cssFilter = $.filter('**/*.css');
+  var jsFilter = $.filter('**/*.js');
+  var assets = $.useref.assets();
+
+  return gulp.src(path.join(config.paths.tmp, '*.html'))
+    .pipe($.inject(templateFiles, injectOptions))
+    .pipe(assets)
+    .pipe($.rev())
+    .pipe(jsFilter)
+    .pipe($.ngAnnotate())
+    .pipe($.uglify().on('error', errorHandler('Uglify')))
+    .pipe(jsFilter.restore())
+    .pipe(cssFilter)
+    .pipe($.minifyCss({
+      processImport: false,
+      keepSpecialComments: false
+    }))
+    .pipe(cssFilter.restore())
+    .pipe(assets.restore())
+    .pipe($.useref())
+    .pipe($.revReplace())
+    .pipe(htmlFilter)
+    .pipe($.minifyHtml({
+      empty: true,
+      spare: true,
+      quotes: true,
+      conditionals: true
+    }))
+    .pipe(htmlFilter.restore())
+    .pipe(gulp.dest(config.paths.dist))
+    .pipe($.size({
+      title: config.paths.dist,
+      showFiles: true
+    }));
+});
+
+/**
+ * Copy content of the assets directory
+ */
+gulp.task('assets', function() {
+  return gulp.src(path.join(config.paths.src, 'assets/**/*'))
+    .pipe(gulp.dest(config.paths.dist));
+});
+
+/**
  * Build task
  */
 gulp.task('build', [
-  'clean:dist',
+  'clean',
+  'app',
+  'assets'
 ]);
 
 /**

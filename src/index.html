@@ -9,11 +9,17 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Place favicon.ico in the root directory -->
 
+  <!-- build:css(.tmp) css/vendor.css -->
   <!-- bower:css -->
+  <!-- bower stylesheets will be automatically inserted here -->
   <!-- endbower -->
+  <!-- endbuild -->
 
+  <!-- build:css(.tmp) css/app.css -->
   <!-- inject:css -->
+  <!-- other stylesheets will be automatically inserted here -->
   <!-- endinject -->
+  <!-- endbuild -->
 
 </head>
 <body>
@@ -23,11 +29,21 @@
 
   <div ng-view></div>
 
+  <!-- build:js(src) js/vendor.js -->
   <!-- bower:js -->
+  <!-- bower scripts will be automatically inserted here -->
   <!-- endbower -->
+  <!-- endbuild -->
 
+  <!-- build:js({.tmp,src/app}) js/app.js -->
   <!-- inject:js -->
+  <!-- scripts will be automatically inserted here -->
   <!-- endinject -->
+
+  <!-- inject:templates -->
+  <!-- angular templates will be automatically converted to js and will be inserted here -->
+  <!-- endinject -->
+  <!-- endbuild -->
 
 </body>
 </html>
