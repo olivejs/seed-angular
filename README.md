@@ -1,6 +1,6 @@
-# Ginger
+# AngularJS Blueprint
 
-Ginger is a scaffolding for AngularJS with pragmatic defaults and best practices. It also includes a set of tools for building and testing the application.
+> Ginger blueprint for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
 
 ## Usage
 
