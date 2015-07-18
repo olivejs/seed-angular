@@ -1,10 +1,10 @@
 {
-  "name": "blueprint-angular",
+  "name": "seed-angular",
   "version": "0.1.0",
-  "description": "Ginger blueprint for AngularJS",
-  "repository": "gingerjs/blueprint-angular",
+  "description": "Ginger seed for AngularJS",
+  "repository": "gingerjs/seed-angular",
   "keywords": [
-    "ginger-blueprint",
+    "ginger-seed",
     "scaffold",
     "framework",
     "front-end",

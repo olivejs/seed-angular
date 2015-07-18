@@ -1,6 +1,6 @@
-# AngularJS Blueprint
+# AngularJS Seed
 
-> Ginger blueprint for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
+> Ginger seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
 
 ## Usage
 
