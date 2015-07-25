@@ -1,6 +1,6 @@
 {
   "name": "seed-angular",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Ginger seed for AngularJS",
   "repository": "gingerjs/seed-angular",
   "keywords": [
@@ -9,7 +9,7 @@
     "framework",
     "front-end",
     "app",
-    "angular",
+    "angular"
   ],
   "author": "The Ginger Team",
   "devDependencies": {

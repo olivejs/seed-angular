@@ -6,7 +6,7 @@
     .module('application')
     .controller('HomeController', function($scope) {
       $scope.githubRepo = {
-        name: 'mohislm/ginger'
+        name: 'gingerjs/seed-angular'
       };
     });
 

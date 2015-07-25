@@ -1,6 +1,6 @@
 {
-  "name": "ginger",
-  "version": "0.0.0",
+  "name": "seed-angular",
+  "version": "0.0.1",
   "dependencies": {
     "angular": "~1.4.1",
     "bootstrap-sass": "~3.3.5",
