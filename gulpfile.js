@@ -18,6 +18,31 @@ var fs = require('fs'),
 var config = JSON.parse(fs.readFileSync('.gingerrc'));
 
 /**
+ * Inject Content-Security-Policy meta tag
+ */
+function injectCSP() {
+  var env = process.env.NODE_ENV;
+  var injectCSPOptions = {
+    starttag: '<!-- inject:csp -->',
+    transform: function(filePath, file) {
+      var gingerrcJSON = JSON.parse(file.contents.toString('utf8'));
+      if (!gingerrcJSON.hasOwnProperty('content-security-policy')) { return; }
+      var csp = gingerrcJSON['content-security-policy'];
+      if (!csp.hasOwnProperty(env)) { return; }
+      var meta = '<meta http-equiv="Content-Security-Policy" content="';
+      var contents = [];
+      Object.keys(csp[env]).forEach(function(directive) {
+        var source = csp[env][directive];
+        contents.push(directive + ' ' + source);
+      });
+      meta += contents.join('; ') + '">';
+      return meta;
+    }
+  };
+  return $.inject(gulp.src(['.gingerrc']), injectCSPOptions);
+}
+
+/**
  * Inject @imports and compile Sass
  */
 gulp.task('styles', function() {
@@ -78,6 +103,7 @@ gulp.task('inject', ['styles', 'scripts'], function() {
   };
 
   return gulp.src(path.join(config.paths.src, '*.html'))
+    .pipe(injectCSP())
     .pipe($.inject(cssFiles, injectOptions))  // inject:css
     .pipe($.inject(jsFiles, injectOptions))   // inject:js
     .pipe(wiredep())                          // bower:css
@@ -122,7 +148,7 @@ gulp.task('watch', ['inject'], function() {
 /**
  * Serve via Browsersync
  */
-gulp.task('serve', ['clean:tmp', 'watch'], function() {
+gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
   browserSync.init({
     server: {
       baseDir: [config.paths.tmp, path.join(config.paths.src, 'assets'), path.join(config.paths.src, 'app')],
@@ -166,6 +192,20 @@ gulp.task('clean', function() {
 });
 
 /**
+ * Set environment to development
+ */
+gulp.task('setenv:development', function() {
+  process.env.NODE_ENV = 'development';
+});
+
+/**
+ * Set environment to production
+ */
+gulp.task('setenv:production', function() {
+  process.env.NODE_ENV = 'production';
+});
+
+/**
  * Convert all angular html templates into a javascript template cache
  */
 gulp.task('templates', function() {
@@ -198,6 +238,7 @@ gulp.task('app', ['inject', 'templates'], function() {
   var assets = $.useref.assets();
 
   return gulp.src(path.join(config.paths.tmp, '*.html'))
+    .pipe(injectCSP())
     .pipe($.inject(templateFiles, injectOptions))
     .pipe(assets)
     .pipe($.rev())
@@ -241,6 +282,7 @@ gulp.task('assets', function() {
  * Build task
  */
 gulp.task('build', [
+  'setenv:production',
   'clean',
   'app',
   'assets'
