@@ -1,5 +1,5 @@
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
 
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -19,12 +19,14 @@
         <li><a ng-href="#/">Contact</a></li>
       </ul>
 
-      <a ng-href="{{repo.url}}" class="btn btn-primary navbar-btn navbar-right">
-        Forks <span class="badge">{{repo.forksCount}}</span>
-      </a>
-      <a ng-href="{{repo.url}}" class="btn btn-primary navbar-btn navbar-right">
-        Stars <span class="badge">{{repo.starsCount}}</span>
-      </a>
+      <div class="nav navbar-nav repo-info">
+        <a ng-href="{{repo.url}}" class="btn btn-default navbar-btn">
+          Stars <span class="badge">{{repo.starsCount}}</span>
+        </a>
+        <a ng-href="{{repo.url}}" class="btn btn-default navbar-btn">
+          Forks <span class="badge">{{repo.forksCount}}</span>
+        </a>
+      </div>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

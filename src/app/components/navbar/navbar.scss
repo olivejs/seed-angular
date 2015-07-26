@@ -1,5 +1,10 @@
 navbar {
-  .navbar-btn {
-    margin-left: 10px;
+  .repo-info {
+    @media (min-width: $screen-sm-min) {
+      float: right;
+    }
+    .navbar-btn {
+      margin-left: 10px;
+    }
   }
 }

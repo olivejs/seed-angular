@@ -5,6 +5,7 @@
 var fs = require('fs'),
     path = require('path'),
     gulp = require('gulp'),
+    gutil = require('gulp-util'),
     $ = require('gulp-load-plugins')(),
     wiredep = require('wiredep').stream,
     browserSync = require('browser-sync'),
@@ -259,7 +260,7 @@ gulp.task('default', [
  */
 function errorHandler(title) {
   return function(err) {
-    $.gutil.log($.gutil.colors.red('[' + title + ']'), err.toString());
+    gutil.log(gutil.colors.red('[' + title + ']'), err.toString());
     this.emit('end');
   };
 }
