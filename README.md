@@ -76,3 +76,54 @@ bower.json        | Bower configuration and dependency list.
 gulpfile.js       | Contains build specification for Gulp.
 karma.conf.js     | Karma configuration
 package.json      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
+
+## .gingerrc
+
+Default options:
+```
+{
+  "paths": {
+    "src": "src",
+    "tmp": ".tmp",
+    "dist": "dist"
+  }
+}
+```
+These default options can be overridden. You can also include additional options from the following:
+
+#### Ports
+
+For example:
+```
+{
+  "app": 3000,
+  "bs": 3001
+}
+```
+- `app`: The app will be served via this port (i.e. http://localhost:3000)
+- `bs`: BrowserSync UI control panel can be accessed via this port (i.e. http://localhost:3001)
+
+#### Content Security Policy
+
+For example:
+```
+{
+  "content-security-policy": {
+    "development": {
+      "default-src": "'unsafe-inline' 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'",
+      "style-src": "'self' 'unsafe-inline'",
+      "media-src": "*",
+      ...
+      "other-directive": "other-source"
+    },
+    "production": {
+      "default-src": "'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'",
+      "style-src": "'self' 'unsafe-inline'",
+      "media-src": "*"
+    },
+    "other-env": {
+      ...
+    }
+  }  
+}
+```

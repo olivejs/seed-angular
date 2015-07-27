@@ -2,20 +2,16 @@
 
 'use strict';
 
-var fs = require('fs'),
-    path = require('path'),
+var path = require('path'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     $ = require('gulp-load-plugins')(),
     wiredep = require('wiredep').stream,
     browserSync = require('browser-sync'),
     del = require('del'),
-    karma = require('karma');
-
-/**
- * Ginger configuration
- */
-var config = JSON.parse(fs.readFileSync('.gingerrc'));
+    karma = require('karma'),
+    ginger = require('ginger-cli'),
+    options = ginger.getOptions();
 
 /**
  * Inject Content-Security-Policy meta tag
@@ -24,10 +20,9 @@ function injectCSP() {
   var env = process.env.NODE_ENV;
   var injectCSPOptions = {
     starttag: '<!-- inject:csp -->',
-    transform: function(filePath, file) {
-      var gingerrcJSON = JSON.parse(file.contents.toString('utf8'));
-      if (!gingerrcJSON.hasOwnProperty('content-security-policy')) { return; }
-      var csp = gingerrcJSON['content-security-policy'];
+    transform: function() {
+      if (!options.hasOwnProperty('content-security-policy')) { return; }
+      var csp = options['content-security-policy'];
       if (!csp.hasOwnProperty(env)) { return; }
       var meta = '<meta http-equiv="Content-Security-Policy" content="';
       var contents = [];
@@ -39,7 +34,7 @@ function injectCSP() {
       return meta;
     }
   };
-  return $.inject(gulp.src(['.gingerrc']), injectCSPOptions);
+  return $.inject(gulp.src(''), injectCSPOptions);
 }
 
 /**
@@ -51,13 +46,13 @@ gulp.task('styles', function() {
   };
 
   var sassFiles = gulp.src([
-    path.join(config.paths.src, 'app/**/*.scss'),
-    path.join('!' + config.paths.src, 'app/styles/**/*.scss')
+    path.join(options.paths.src, 'app/**/*.scss'),
+    path.join('!' + options.paths.src, 'app/styles/**/*.scss')
   ], { read: false });
 
   var injectOptions = {
     transform: function(filePath) {
-      filePath = filePath.replace(config.paths.src + '/app/', '../');
+      filePath = filePath.replace(options.paths.src + '/app/', '../');
       return '@import "' + filePath + '";';
     },
     addRootSlash: false,
@@ -66,18 +61,18 @@ gulp.task('styles', function() {
   };
 
   return gulp.src(
-    path.join(config.paths.src, 'app/styles/app.scss'))
+    path.join(options.paths.src, 'app/styles/app.scss'))
     .pipe($.inject(sassFiles, injectOptions))
     .pipe(wiredep())
     .pipe($.sass(sassOptions)).on('error', errorHandler('Sass'))
-    .pipe(gulp.dest(path.join(config.paths.tmp, 'css')));
+    .pipe(gulp.dest(path.join(options.paths.tmp, 'css')));
 });
 
 /**
- *
+ * Lint the scripts and report issues if any
  */
 gulp.task('scripts', function() {
-  return gulp.src(path.join(config.paths.src, 'app/**/*.js'))
+  return gulp.src(path.join(options.paths.src, 'app/**/*.js'))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'));
 });
@@ -88,26 +83,26 @@ gulp.task('scripts', function() {
  */
 gulp.task('inject', ['styles', 'scripts'], function() {
   var cssFiles = gulp.src([
-    path.join(config.paths.tmp, 'css/**/*.css')
+    path.join(options.paths.tmp, 'css/**/*.css')
   ], { read: false });
 
   var jsFiles = gulp.src([
-    path.join(config.paths.src, 'app/**/*.js'),
-    path.join('!' + config.paths.src, 'app/**/*.spec.js')
+    path.join(options.paths.src, 'app/**/*.js'),
+    path.join('!' + options.paths.src, 'app/**/*.spec.js')
   ], { read: false });
 
   // make the path relative
   var injectOptions = {
-    ignorePath: [path.join(config.paths.src, 'app'), config.paths.tmp],
+    ignorePath: [path.join(options.paths.src, 'app'), options.paths.tmp],
     addRootSlash: false
   };
 
-  return gulp.src(path.join(config.paths.src, '*.html'))
+  return gulp.src(path.join(options.paths.src, '*.html'))
     .pipe(injectCSP())
     .pipe($.inject(cssFiles, injectOptions))  // inject:css
     .pipe($.inject(jsFiles, injectOptions))   // inject:js
     .pipe(wiredep())                          // bower:css
-    .pipe(gulp.dest(config.paths.tmp));
+    .pipe(gulp.dest(options.paths.tmp));
 
   /* Important: While using both, `wiredep` should always run after `inject` in the pipe */
 });
@@ -118,10 +113,10 @@ gulp.task('inject', ['styles', 'scripts'], function() {
 gulp.task('watch', ['inject'], function() {
 
   // Watch for change in the root htmls (i.e. index.html) or in bower.json
-  gulp.watch([path.join(config.paths.src, '*.html'), 'bower.json'], ['inject', browserSync.reload]);
+  gulp.watch([path.join(options.paths.src, '*.html'), 'bower.json'], ['inject', browserSync.reload]);
 
   // Watch for change in sass
-  gulp.watch(path.join(config.paths.src, 'app/**/*.scss'), function(event) {
+  gulp.watch(path.join(options.paths.src, 'app/**/*.scss'), function(event) {
     if (event.type === 'changed') {
       gulp.start('styles', browserSync.reload);
     } else {
@@ -130,7 +125,7 @@ gulp.task('watch', ['inject'], function() {
   });
 
   // Watch for change in scripts
-  gulp.watch(path.join(config.paths.src, 'app/**/*.js'), function(event) {
+  gulp.watch(path.join(options.paths.src, 'app/**/*.js'), function(event) {
     if (event.type === 'changed') {
       gulp.start('scripts', browserSync.reload);
     } else {
@@ -139,7 +134,7 @@ gulp.task('watch', ['inject'], function() {
   });
 
   // Watch for change in the html templates
-  gulp.watch([path.join(config.paths.src, 'app/**/*.html')], function(event) {
+  gulp.watch([path.join(options.paths.src, 'app/**/*.html')], function(event) {
     browserSync.reload(event.path);
   });
 
@@ -149,9 +144,15 @@ gulp.task('watch', ['inject'], function() {
  * Serve via Browsersync
  */
 gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
+  var ports = options.ports || {};
+  console.log('ports =>', ports);
   browserSync.init({
+    port: ports.app || 3000,
+    ui: {
+      port: ports.bs || 3001
+    },
     server: {
-      baseDir: [config.paths.tmp, path.join(config.paths.src, 'assets'), path.join(config.paths.src, 'app')],
+      baseDir: [options.paths.tmp, path.join(options.paths.src, 'assets'), path.join(options.paths.src, 'app')],
       routes: {
         '/bower_components': 'bower_components'
       }
@@ -174,21 +175,21 @@ gulp.task('test', function() {
  * Delete tmp directory
  */
 gulp.task('clean:tmp', function() {
-  del.sync([config.paths.tmp]);
+  del.sync([options.paths.tmp]);
 });
 
 /**
  * Delete dist directory
  */
 gulp.task('clean:dist', function() {
-  del.sync([config.paths.dist]);
+  del.sync([options.paths.dist]);
 });
 
 /**
  * Delete both tmp and dist directories
  */
 gulp.task('clean', function() {
-  del.sync([config.paths.tmp, config.paths.dist]);
+  del.sync([options.paths.tmp, options.paths.dist]);
 });
 
 /**
@@ -209,7 +210,7 @@ gulp.task('setenv:production', function() {
  * Convert all angular html templates into a javascript template cache
  */
 gulp.task('templates', function() {
-  return gulp.src(path.join(config.paths.src, 'app/**/*.html'))
+  return gulp.src(path.join(options.paths.src, 'app/**/*.html'))
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
@@ -218,17 +219,17 @@ gulp.task('templates', function() {
     .pipe($.angularTemplatecache({
       module: 'application'
     }))
-    .pipe(gulp.dest(path.join(config.paths.tmp, 'js')));
+    .pipe(gulp.dest(path.join(options.paths.tmp, 'js')));
 });
 
 /**
  * Build app html, css and js files
  */
 gulp.task('app', ['inject', 'templates'], function() {
-  var templateFiles = gulp.src(path.join(config.paths.tmp, 'js/templates.js'), { read: false });
+  var templateFiles = gulp.src(path.join(options.paths.tmp, 'js/templates.js'), { read: false });
   var injectOptions = {
     starttag: '<!-- inject:templates -->',
-    ignorePath: config.paths.tmp,
+    ignorePath: options.paths.tmp,
     addRootSlash: false
   };
 
@@ -237,7 +238,7 @@ gulp.task('app', ['inject', 'templates'], function() {
   var jsFilter = $.filter('**/*.js');
   var assets = $.useref.assets();
 
-  return gulp.src(path.join(config.paths.tmp, '*.html'))
+  return gulp.src(path.join(options.paths.tmp, '*.html'))
     .pipe(injectCSP())
     .pipe($.inject(templateFiles, injectOptions))
     .pipe(assets)
@@ -263,9 +264,9 @@ gulp.task('app', ['inject', 'templates'], function() {
       conditionals: true
     }))
     .pipe(htmlFilter.restore())
-    .pipe(gulp.dest(config.paths.dist))
+    .pipe(gulp.dest(options.paths.dist))
     .pipe($.size({
-      title: config.paths.dist,
+      title: options.paths.dist,
       showFiles: true
     }));
 });
@@ -274,8 +275,8 @@ gulp.task('app', ['inject', 'templates'], function() {
  * Copy content of the assets directory
  */
 gulp.task('assets', function() {
-  return gulp.src(path.join(config.paths.src, 'assets/**/*'))
-    .pipe(gulp.dest(config.paths.dist));
+  return gulp.src(path.join(options.paths.src, 'assets/**/*'))
+    .pipe(gulp.dest(options.paths.dist));
 });
 
 /**
