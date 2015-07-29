@@ -1,6 +1,6 @@
 {
   "name": "seed-angular",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Olive seed for AngularJS",
   "repository": "olivejs/seed-angular",
   "keywords": [
@@ -37,6 +37,7 @@
     "karma": "^0.12.37",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
+    "karma-mocha-reporter": "^1.0.4",
     "karma-phantomjs-launcher": "^0.2.0",
     "olive": "0.0.7",
     "phantomjs": "^1.9.17",

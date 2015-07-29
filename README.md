@@ -96,8 +96,11 @@ These default options can be overridden. You can also include additional options
 For example:
 ```
 {
-  "app": 3000,
-  "bs": 3001
+  "ports": {
+    "app": 3000,
+    "bs": 3001,
+    "karma": 3002    
+  }
 }
 ```
 - `app`: The app will be served via this port (i.e. http://localhost:3000)
