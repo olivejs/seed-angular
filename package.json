@@ -1,17 +1,18 @@
 {
   "name": "seed-angular",
-  "version": "0.0.2",
-  "description": "Ginger seed for AngularJS",
-  "repository": "gingerjs/seed-angular",
+  "version": "0.0.3",
+  "description": "Olive seed for AngularJS",
+  "repository": "olivejs/seed-angular",
   "keywords": [
-    "ginger-seed",
+    "olive-seed",
     "scaffold",
     "framework",
     "front-end",
     "app",
     "angular"
   ],
-  "author": "The Ginger Team",
+  "author": "The Olive Team",
+  "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.7.13",
     "del": "^1.2.0",
@@ -37,6 +38,7 @@
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.0",
+    "olive": "0.0.7",
     "phantomjs": "^1.9.17",
     "wiredep": "^2.2.2"
   },

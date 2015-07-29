@@ -1,10 +1,10 @@
 # AngularJS Seed
 
-> Ginger seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
+> Olive seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
 
 ## Usage
 
-Install gulp and bower:
+Install gulp and bower if you haven't already:
 ```
 npm install -g gulp bower
 ```
@@ -69,7 +69,7 @@ bower_components/ |	Bower dependencies.
 node_modules      | Node modules required for development purpose.
 .bowerrc          | Bower configuration.
 .editorconfig     | EditorConfig file.
-.gingerrc         | Ginger configuration.
+.oliverc          | Olive configuration.
 .gitignore        | Git configuration for ignored files.
 .jshintrc         | JSHint configuration
 bower.json        | Bower configuration and dependency list.
@@ -77,7 +77,7 @@ gulpfile.js       | Contains build specification for Gulp.
 karma.conf.js     | Karma configuration
 package.json      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
 
-## .gingerrc
+## .oliverc
 
 Default options:
 ```

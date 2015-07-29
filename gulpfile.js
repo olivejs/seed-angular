@@ -10,8 +10,8 @@ var path = require('path'),
     browserSync = require('browser-sync'),
     del = require('del'),
     karma = require('karma'),
-    ginger = require('ginger-cli'),
-    options = ginger.getOptions();
+    olive = require('olive'),
+    options = olive.getOptions();
 
 /**
  * Inject Content-Security-Policy meta tag

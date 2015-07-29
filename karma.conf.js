@@ -5,7 +5,9 @@
 var fs = require('fs'),
     path = require('path'),
     wiredep = require('wiredep'),
-    gingerConfig = JSON.parse(fs.readFileSync('.gingerrc'));
+    olive = require('olive'),
+    oliveOptions = olive.getOptions();
+
 
 function getFiles() {
   var wiredepOptions = {
@@ -17,7 +19,7 @@ function getFiles() {
   // bower js files and application js file
   return wiredep(wiredepOptions).js
     .concat([
-      path.join(gingerConfig.paths.src, 'app/**/*.js')
+      path.join(oliveOptions.paths.src, 'app/**/*.js')
     ]);
 }
 
@@ -88,7 +90,7 @@ module.exports = function(config) {
   // source files, that you wanna generate coverage for
   // do not include tests or libraries
   // (these files will be instrumented by Istanbul)
-  karmaConfig.preprocessors[gingerConfig.paths.src + '/**/*.js'] = ['coverage'];
+  karmaConfig.preprocessors[oliveOptions.paths.src + '/**/*.js'] = ['coverage'];
 
   config.set(karmaConfig);
 };
