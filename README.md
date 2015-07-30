@@ -99,7 +99,7 @@ For example:
   "ports": {
     "app": 3000,
     "bs": 3001,
-    "karma": 3002    
+    "karma": 3002
   }
 }
 ```
