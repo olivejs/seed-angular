@@ -3,6 +3,7 @@
 'use strict';
 
 var path = require('path'),
+    _ = require('lodash'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     $ = require('gulp-load-plugins')(),
@@ -55,15 +56,25 @@ function runUnitTests(singleRun, done) {
 }
 
 /**
- * Signal report page to reload
+ * Debounced method to reload the unit test report page
  * @param  {String} path Relative path to the changed file
  */
-function reloadTestReport(path) {
+var reloadTestReport = _.debounce(_reloadTestReport, 50);
+function _reloadTestReport(path) {
   tinylr.changed({
     body: {
       files: [path]
     }
   });
+}
+
+/**
+ * Debounced method to reload the browser
+ * @param  {String} path Relative path to the changed file
+ */
+var reloadBrowser = _.debounce(_reloadBrowser, 50);
+function _reloadBrowser(path) {
+  browserSync.reload(path);
 }
 
 /**
@@ -144,40 +155,46 @@ gulp.task('inject', ['styles', 'scripts'], function() {
  */
 gulp.task('watch', ['inject'], function() {
 
-  // Watch for change in the root htmls (i.e. index.html) and in bower.json
+  // Watch for changes in the root htmls (i.e. index.html) and in bower.json
   chokidar.watch([path.join(options.paths.src, '*.html'), 'bower.json']).on('change', function(_path) {
     gulp.start('inject', function() {
-      browserSync.reload();
+      reloadBrowser(_path);
       reloadTestReport(_path);
     });
   });
 
+  // Watch for changes in all files inside the assets directory
+  chokidar.watch(path.join(options.paths.src, 'assets')).on('all', function(event, _path) {
+    reloadBrowser(_path);
+  });
+
+  // Watch for changes in scss/js/html files inside app directory
   chokidar.watch(path.join(options.paths.src, 'app')).on('all', function(event, _path) {
     var ext = path.extname(_path);
 
     // Watch for change in `app/**/*.scss`
     if (ext === '.scss') {
-      if (event === 'changed') {
+      if (event === 'change') {
         gulp.start('styles', function() {
-          browserSync.reload(_path);
+          reloadBrowser(_path);
         });
       } else {
         gulp.start('inject', function() {
-          browserSync.reload(_path);
+          reloadBrowser(_path);
         });
       }
     }
 
-    // Watch for change in `app/**/*.js`
+    // Watch for changes in `app/**/*.js`
     else if (ext === '.js') {
       if (event === 'change') {
         gulp.start('scripts', function() {
-          browserSync.reload(_path);
+          reloadBrowser(_path);
           reloadTestReport(_path);
         });
       } else {
         gulp.start('inject', function() {
-          browserSync.reload(_path);
+          reloadBrowser(_path);
           reloadTestReport(_path);
         });
       }
@@ -187,7 +204,7 @@ gulp.task('watch', ['inject'], function() {
 
     // Watch for change in `app/**/*.html`
     else if (ext === '.html') {
-      browserSync.reload(_path);
+      reloadBrowser(_path);
       reloadTestReport(_path);
     }
 

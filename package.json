@@ -48,6 +48,7 @@
     "karma-jasmine-html-reporter-livereload": "^1.0.0",
     "karma-mocha-reporter": "^1.0.4",
     "karma-phantomjs-launcher": "^0.2.0",
+    "lodash": "^3.10.0",
     "olive": "0.0.7",
     "opn": "^3.0.2",
     "phantomjs": "^1.9.17",
