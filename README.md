@@ -4,19 +4,31 @@
 
 ## Usage
 
-Install gulp and bower if you haven't already:
+Install gulp, bower and olive if you haven't already:
 ```
-npm install -g gulp bower
+npm install -g gulp bower olive
 ```
-Clone this repo, and `cd` into it:
+Create your project from this Angular seed using Olive CLI:
 ```
-  cd <path-to-the-repo>
+mkdir myapp && cd myapp
+olive new angular
 ```
 Install npm and bower dependencies:
 ```
-  npm install && bower install
+npm install && bower install
 ```
-Run `gulp build` to build and `gulp serve` for preview. Run `gulp test` to launch the test runner. It will also generates the code coverage report in `coverage` directory.
+Start developing:
+```
+npm start
+```
+Build for production:
+```
+npm build
+```
+Run test once and generate code coverage reports in `coverage` directory.
+```
+npm test
+```
 
 ## Directory Structure
 
@@ -105,6 +117,7 @@ For example:
 ```
 - `app`: The app will be served via this port (i.e. http://localhost:3000)
 - `bs`: BrowserSync UI control panel can be accessed via this port (i.e. http://localhost:3001)
+- `karma`: Karma tests report page is served via this port (i.e. http://localhost:3002/debug.html)
 
 #### Content Security Policy
 

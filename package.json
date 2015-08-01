@@ -13,11 +13,14 @@
   ],
   "author": "The Olive Team",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "gulp serve",
+    "build": "gulp build"
   },
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.7.13",
+    "chokidar": "^1.0.5",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.7.0",
