@@ -47,9 +47,9 @@ module.exports = function(config) {
     },
 
     // test results reporter to use
-    // possible values: 'dots', 'progress', 'mocha', 'coverage'
+    // possible values: 'dots', 'progress', 'mocha', 'html', 'coverage'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['html', 'coverage'],
 
     // generate code coverage using Istanbul
     // https://github.com/karma-runner/karma-coverage

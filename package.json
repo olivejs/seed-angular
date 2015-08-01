@@ -12,6 +12,9 @@
     "angular"
   ],
   "author": "The Olive Team",
+  "scripts": {
+    "test": "gulp test"
+  },
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.7.13",
@@ -37,10 +40,13 @@
     "karma": "^0.12.37",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
+    "karma-jasmine-html-reporter-livereload": "^1.0.0",
     "karma-mocha-reporter": "^1.0.4",
     "karma-phantomjs-launcher": "^0.2.0",
     "olive": "0.0.7",
+    "opn": "^3.0.2",
     "phantomjs": "^1.9.17",
+    "tiny-lr": "0.1.4",
     "wiredep": "^2.2.2"
   },
   "engines": {

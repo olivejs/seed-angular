@@ -10,6 +10,8 @@ var path = require('path'),
     browserSync = require('browser-sync'),
     del = require('del'),
     karma = require('karma'),
+    tinylr = require('tiny-lr')(),
+    opn = require('opn'),
     olive = require('olive'),
     options = olive.getOptions();
 
@@ -35,6 +37,20 @@ function injectCSP() {
     }
   };
   return $.inject(gulp.src(''), injectCSPOptions);
+}
+
+/**
+ * Run unit tests
+ * @param  {Boolean}  singleRun If true, runs only once
+ * @param  {Function} done      Callback function
+ */
+function runUnitTests(singleRun, done) {
+  karma.server.start({
+    configFile: path.join(__dirname, 'karma.conf.js'),
+    singleRun: singleRun,
+    autoWatch: !singleRun,
+    reporters: singleRun ? ['mocha'] : ['html']
+  }, done);
 }
 
 /**
@@ -79,7 +95,7 @@ gulp.task('scripts', function() {
 
 /**
  * Inject stylesheets into `bower:css` and `inject:css`
- * and scripts into ...
+ * and scripts into `inject:js`
  */
 gulp.task('inject', ['styles', 'scripts'], function() {
   var cssFiles = gulp.src([
@@ -131,6 +147,15 @@ gulp.task('watch', ['inject'], function() {
     } else {
       gulp.start('inject', browserSync.reload);
     }
+
+    // Signal report page to reload
+    tinylr.changed({
+      body: {
+        files: [
+          path.relative(__dirname, event.path)
+        ]
+      }
+    });
   });
 
   // Watch for change in the html templates
@@ -138,6 +163,14 @@ gulp.task('watch', ['inject'], function() {
     browserSync.reload(event.path);
   });
 
+  // Listen to livereload update for html report page
+  tinylr.listen(35729);
+
+  // Run unit test continuously
+  runUnitTests(false);
+
+  // Open report page in browser
+  opn('http://localhost:' + options.ports.karma + '/debug.html');
 });
 
 /**
@@ -145,7 +178,6 @@ gulp.task('watch', ['inject'], function() {
  */
 gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
   var ports = options.ports || {};
-  console.log('ports =>', ports);
   browserSync.init({
     port: ports.app || 3000,
     ui: {
@@ -156,19 +188,23 @@ gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
       routes: {
         '/bower_components': 'bower_components'
       }
-    }
+    },
+    notify: false
   });
 });
 
 /**
- * Test
+ * Run unit tests once
  */
-gulp.task('test', function() {
-  karma.server.start({
-    configFile: path.join(__dirname, 'karma.conf.js'),
-    autoWatch: true,
-    singleRun: false,
-  });
+ gulp.task('test', ['scripts'], function(done) {
+   runUnitTests(true, done);
+ });
+
+/**
+ * Run unit tests continuously
+ */
+gulp.task('test:auto', ['watch'], function() {
+  runUnitTests(false);
 });
 
 /**
