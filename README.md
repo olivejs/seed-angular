@@ -21,13 +21,13 @@ Start developing:
 ```
 npm start
 ```
-Build for production:
-```
-npm build
-```
 Run test once and generate code coverage reports in `coverage` directory.
 ```
 npm test
+```
+Build for production:
+```
+npm run build
 ```
 
 ## Directory Structure

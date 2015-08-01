@@ -93,7 +93,10 @@ gulp.task('styles', function() {
     path.join(options.paths.src, 'app/styles/app.scss'))
     .pipe($.inject(sassFiles, injectOptions))
     .pipe(wiredep())
+    .pipe($.sourcemaps.init())
     .pipe($.sass(sassOptions)).on('error', errorHandler('Sass'))
+    .pipe($.autoprefixer()).on('error', errorHandler('Autoprefixer'))
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest(path.join(options.paths.tmp, 'css')));
 });
 
