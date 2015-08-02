@@ -6,7 +6,6 @@ var path = require('path'),
     _ = require('lodash'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
-    $ = require('gulp-load-plugins')(),
     chokidar = require('chokidar'),
     wiredep = require('wiredep').stream,
     browserSync = require('browser-sync'),
@@ -15,7 +14,10 @@ var path = require('path'),
     tinylr = require('tiny-lr')(),
     opn = require('opn'),
     olive = require('olive'),
-    options = olive.getOptions();
+    options = olive.getOptions(),
+    $ = require('gulp-load-plugins')({
+      pattern: ['gulp-*', 'main-bower-files']
+    });
 
 /**
  * Inject Content-Security-Policy meta tag
@@ -331,6 +333,7 @@ gulp.task('app', ['inject', 'templates'], function() {
     .pipe($.uglify().on('error', errorHandler('Uglify')))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
+    .pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../fonts/'))
     .pipe($.minifyCss({
       processImport: false,
       keepSpecialComments: false
@@ -355,6 +358,17 @@ gulp.task('app', ['inject', 'templates'], function() {
 });
 
 /**
+ * Copy fonts from bower dependencies to dist/fonts
+ * Note: Custom fonts are handled by `assets` task
+ */
+gulp.task('fonts', function () {
+  return gulp.src($.mainBowerFiles())
+    .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
+    .pipe($.flatten())
+    .pipe(gulp.dest(path.join(options.paths.dist, 'fonts')));
+});
+
+/**
  * Copy content of the assets directory
  */
 gulp.task('assets', function() {
@@ -369,6 +383,7 @@ gulp.task('build', [
   'setenv:production',
   'clean',
   'app',
+  'fonts',
   'assets'
 ]);
 
