@@ -200,8 +200,6 @@ gulp.task('watch', ['inject'], function() {
           reloadTestReport(_path);
         });
       }
-
-      reloadTestReport(_path);
     }
 
     // Watch for change in `app/**/*.html`
@@ -238,7 +236,8 @@ gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
         '/bower_components': 'bower_components'
       }
     },
-    notify: false
+    notify: false,
+    logLevel: 'silent'
   });
 });
 
