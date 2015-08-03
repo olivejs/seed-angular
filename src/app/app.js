@@ -4,7 +4,11 @@
 
   angular
     .module('application', ['ui.router'])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+
+      // Use html5Mode for modern browsers,
+      // and fallback to #! for older browsers and search engine crawlers.
+      $locationProvider.html5Mode(true).hashPrefix('!');
 
       $stateProvider
         .state('home', {

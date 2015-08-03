@@ -10,6 +10,7 @@ var olive = require('olive'),
     chokidar = require('chokidar'),
     wiredep = require('wiredep').stream,
     browserSync = require('browser-sync'),
+    modRewrite = require('connect-modrewrite'),
     del = require('del'),
     karma = require('karma'),
     tinylr = require('tiny-lr')(),
@@ -256,7 +257,10 @@ gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
       baseDir: [options.paths.tmp, path.join(options.paths.src, 'assets'), path.join(options.paths.src, 'app')],
       routes: {
         '/bower_components': 'bower_components'
-      }
+      },
+      middleware: modRewrite([
+        '!\\.\\w+$ /index.html [L]'
+      ])
     },
     notify: false,
     logLevel: 'silent'
