@@ -1,0 +1,6 @@
+{
+  "requireParenthesesAroundIIFE": true,
+  "validateIndentation": 2,
+  "requireCapitalizedConstructors": true,
+  "validateQuoteMarks": "'"
+}

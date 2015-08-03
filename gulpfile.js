@@ -2,7 +2,8 @@
 
 'use strict';
 
-var path = require('path'),
+var olive = require('olive'),
+    path = require('path'),
     _ = require('lodash'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
@@ -13,17 +14,32 @@ var path = require('path'),
     karma = require('karma'),
     tinylr = require('tiny-lr')(),
     opn = require('opn'),
-    olive = require('olive'),
     options = olive.getOptions(),
     $ = require('gulp-load-plugins')({
       pattern: ['gulp-*', 'main-bower-files']
     });
 
 /**
+ * Get node environment
+ * @return {String} Environment name
+ */
+function getenv() {
+  return process.env.NODE_ENV;
+}
+
+/**
+ * Set node environment
+ * @param  {String} env Environment name
+ */
+function setenv(env) {
+  process.env.NODE_ENV = env;
+}
+
+/**
  * Inject Content-Security-Policy meta tag
  */
 function injectCSP() {
-  var env = process.env.NODE_ENV;
+  var env = getenv();
   var injectCSPOptions = {
     starttag: '<!-- inject:csp -->',
     transform: function() {
@@ -75,7 +91,11 @@ function _reloadTestReport(path) {
  * @param  {String} path Relative path to the changed file
  */
 var reloadBrowser = _.debounce(_reloadBrowser, 50);
-function _reloadBrowser(path) {
+function _reloadBrowser(path, event) {
+  if (event) {
+    gutil.log(gutil.colors.cyan('File changed:'), gutil.colors.magenta(path));
+  }
+  gutil.log(gutil.colors.cyan('Reloading Browsers...'));
   browserSync.reload(path);
 }
 
@@ -116,9 +136,11 @@ gulp.task('styles', function() {
 /**
  * Lint the scripts and report issues if any
  */
-gulp.task('scripts', function() {
+gulp.task('lint', function() {
   return gulp.src(path.join(options.paths.src, 'app/**/*.js'))
     .pipe($.jshint())
+    .pipe($.jscs()).on('error', _.noop)
+    .pipe($.jscsStylish.combineWithHintResults())
     .pipe($.jshint.reporter('jshint-stylish'));
 });
 
@@ -126,7 +148,7 @@ gulp.task('scripts', function() {
  * Inject stylesheets into `bower:css` and `inject:css`
  * and scripts into `inject:js`
  */
-gulp.task('inject', ['styles', 'scripts'], function() {
+gulp.task('inject', ['styles', 'lint'], function() {
   var cssFiles = gulp.src([
     path.join(options.paths.tmp, 'css/**/*.css')
   ], { read: false });
@@ -158,31 +180,31 @@ gulp.task('inject', ['styles', 'scripts'], function() {
 gulp.task('watch', ['inject'], function() {
 
   // Watch for changes in the root htmls (i.e. index.html) and in bower.json
-  chokidar.watch([path.join(options.paths.src, '*.html'), 'bower.json']).on('change', function(_path) {
+  chokidar.watch([path.join(options.paths.src, '*.html'), 'bower.json'], {ignoreInitial: true}).on('change', function(_path) {
     gulp.start('inject', function() {
-      reloadBrowser(_path);
-      reloadTestReport(_path);
+      reloadBrowser(_path, 'change');
+      reloadTestReport(_path, 'change');
     });
   });
 
   // Watch for changes in all files inside the assets directory
-  chokidar.watch(path.join(options.paths.src, 'assets')).on('all', function(event, _path) {
-    reloadBrowser(_path);
+  chokidar.watch(path.join(options.paths.src, 'assets'), {ignoreInitial: true}).on('all', function(event, _path) {
+    reloadBrowser(_path, event);
   });
 
   // Watch for changes in scss/js/html files inside app directory
-  chokidar.watch(path.join(options.paths.src, 'app')).on('all', function(event, _path) {
+  chokidar.watch(path.join(options.paths.src, 'app'), {ignoreInitial: true}).on('all', function(event, _path) {
     var ext = path.extname(_path);
 
     // Watch for change in `app/**/*.scss`
     if (ext === '.scss') {
       if (event === 'change') {
         gulp.start('styles', function() {
-          reloadBrowser(_path);
+          reloadBrowser(_path, event);
         });
       } else {
         gulp.start('inject', function() {
-          reloadBrowser(_path);
+          reloadBrowser(_path, event);
         });
       }
     }
@@ -190,13 +212,13 @@ gulp.task('watch', ['inject'], function() {
     // Watch for changes in `app/**/*.js`
     else if (ext === '.js') {
       if (event === 'change') {
-        gulp.start('scripts', function() {
-          reloadBrowser(_path);
+        gulp.start('lint', function() {
+          reloadBrowser(_path, event);
           reloadTestReport(_path);
         });
       } else {
         gulp.start('inject', function() {
-          reloadBrowser(_path);
+          reloadBrowser(_path, event);
           reloadTestReport(_path);
         });
       }
@@ -204,7 +226,7 @@ gulp.task('watch', ['inject'], function() {
 
     // Watch for change in `app/**/*.html`
     else if (ext === '.html') {
-      reloadBrowser(_path);
+      reloadBrowser(_path, event);
       reloadTestReport(_path);
     }
 
@@ -244,14 +266,14 @@ gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
 /**
  * Run unit tests once
  */
- gulp.task('test', ['scripts'], function(done) {
-   runUnitTests(true, done);
- });
+gulp.task('test', ['setenv:test', 'lint'], function(done) {
+  runUnitTests(true, done);
+});
 
 /**
  * Run unit tests continuously
  */
-gulp.task('test:auto', ['watch'], function() {
+gulp.task('test:auto', ['setenv:test', 'watch'], function() {
   runUnitTests(false);
 });
 
@@ -280,14 +302,21 @@ gulp.task('clean', function() {
  * Set environment to development
  */
 gulp.task('setenv:development', function() {
-  process.env.NODE_ENV = 'development';
+  setenv('development');
 });
 
 /**
  * Set environment to production
  */
 gulp.task('setenv:production', function() {
-  process.env.NODE_ENV = 'production';
+  setenv('production');
+});
+
+/**
+ * Set environment to test
+ */
+gulp.task('setenv:test', function() {
+  setenv('test');
 });
 
 /**
