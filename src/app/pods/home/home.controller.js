@@ -3,11 +3,15 @@
   'use strict';
 
   angular
-    .module('application')
-    .controller('HomeController', function($scope) {
-      $scope.githubRepo = {
-        name: 'olivejs/olive'
+    .module('app')
+    .controller('HomeController', function() {
+
+      var vm = this;
+
+      vm.githubRepo = {
+        name: 'olivejs/seed-angular'
       };
+
     });
 
 })();

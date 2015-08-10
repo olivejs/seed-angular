@@ -157,7 +157,8 @@ gulp.task('inject', ['styles', 'lint'], function() {
   var jsFiles = gulp.src([
     path.join(options.paths.src, 'app/**/*.js'),
     path.join('!' + options.paths.src, 'app/**/*.spec.js')
-  ], { read: false });
+  ])
+  .pipe($.angularFilesort()).on('error', errorHandler('AngularFilesort'));
 
   // make the path relative
   var injectOptions = {
@@ -334,7 +335,7 @@ gulp.task('templates', function() {
       quotes: true
     }))
     .pipe($.angularTemplatecache({
-      module: 'application'
+      module: 'app'
     }))
     .pipe(gulp.dest(path.join(options.paths.tmp, 'js')));
 });

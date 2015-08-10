@@ -6,7 +6,7 @@
 
 Install gulp, bower and olive if you haven't already:
 ```
-npm install -g gulp bower olive
+npm install -g olive gulp bower
 ```
 Create your project from this Angular seed using Olive CLI:
 ```
@@ -37,16 +37,33 @@ npm run build
 │ ├─app/
 │ │ ├─components/
 │ │ │ └─navbar/
-│ │ │   ├─navbar.directive.js
-│ │ │   ├─navbar.html
-│ │ │   └─navbar.scss
+│ │ │   ├─repoinfo.directive.js
+│ │ │   ├─repoinfo.html
+│ │ │   └─repoinfo.scss
+│ │ ├─config/
+│ │ │ ├─modules.js
+│ │ │ ├─routes.js
+│ │ │ └─run.js
+│ │ ├─layouts/
+│ │ │ └─default/
+│ │ │   ├─default.html
+│ │ │   └─default.scss
+│ │ ├─partials/
+│ │ │ ├─footer/
+│ │ │ │ ├─footer.html
+│ │ │ │ └─footer.scss
+│ │ │ └─header/
+│ │ │   ├─header.html
+│ │ │   └─header.scss
 │ │ ├─pods/
 │ │ │ └─home/
 │ │ │   ├─home.controller.js
+│ │ │   ├─home.controller.spec.js
 │ │ │   ├─home.html
 │ │ │   └─home.scss
 │ │ ├─services/
-│ │ │ └─github.service.js
+│ │ │ └─github
+│ │ │   └─github.service.js
 │ │ ├─styles/
 │ │ │ ├─_overrides.scss
 │ │ │ ├─_type.scss
@@ -64,12 +81,16 @@ npm run build
 ├─node_modules/
 ├─.bowerrc
 ├─.editorconfig
+├─.gitattributes
 ├─.gitignore
+├─.jscsrc
 ├─.jshintrc
+├─.oliverc
 ├─bower.json
 ├─gulpfile.js
+├─karma.conf.js
 ├─package.json
-└─readme.json
+└─README.md
 ```
 
 File/Directory    | Purpose
@@ -82,12 +103,16 @@ node_modules      | Node modules required for development purpose.
 .bowerrc          | Bower configuration.
 .editorconfig     | EditorConfig file.
 .oliverc          | Olive configuration.
+.gitattributes    | Definition for Git attributes.
 .gitignore        | Git configuration for ignored files.
-.jshintrc         | JSHint configuration
+.jscsrc           | JavaScript code style configuration.
+.jshintrc         | JSHint configuration.
+.oliverc          | Olive configuration.
 bower.json        | Bower configuration and dependency list.
 gulpfile.js       | Contains build specification for Gulp.
-karma.conf.js     | Karma configuration
+karma.conf.js     | Karma configuration.
 package.json      | NPM configuration. Mainly used to list the dependencies needed for asset compilation.
+README.md         | This documentation.
 
 ## .oliverc
 

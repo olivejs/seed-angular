@@ -3,7 +3,7 @@
   "bitwise": true,
   "curly": true,
   "eqeqeq": true,
-  "latedef": true,
+  "latedef": false,
   "noarg": true,
   "undef": true,
   "unused": true,

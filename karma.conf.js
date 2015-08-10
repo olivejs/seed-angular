@@ -32,7 +32,12 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'angular-filesort'],
+
+    // further narrow the subset of files via karma-angular-filesort
+    angularFilesort: {
+      whitelist: [path.join(oliveOptions.paths.src, '/**/!(*.html|*.spec|*.mock).js')]
+    },
 
     // list of files / patterns to load in the browser
     files: getFiles(),

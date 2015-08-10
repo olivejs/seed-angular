@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('application')
+    .module('app')
     .factory('Github', function($q, $http, $window) {
       return {
         getRepo: function(name) {

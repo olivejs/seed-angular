@@ -1,11 +1,9 @@
-<navbar repo="githubRepo"></navbar>
-
-<div class="container">
-
+<main class="home">
   <div class="jumbotron">
-    <h1>Olive is ready!</h1>
+    <h2>Olive is ready!</h2>
     <img src="img/olive.svg" alt="Olive">
-    <p>Always a pleasure scaffolding your apps.</p>
+    <div repoinfo repo="vm.githubRepo"></div>
+    <p>Learn more from the <a ng-href="{{vm.githubRepo.url}}">documentation</a>.</p>
     <p>
       <button class="btn btn-lg btn-success" type="button">
         Awesome!
@@ -13,5 +11,4 @@
       </button>
     </p>
   </div>
-
-</div>
+</main>
