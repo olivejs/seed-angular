@@ -2,6 +2,8 @@
 
 > Olive seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
 
+![tech-stack][tech-stack]
+
 ## Usage
 
 Install gulp, bower and olive if you haven't already:
@@ -29,6 +31,26 @@ Build for production:
 ```
 npm run build
 ```
+
+## Features
+
+#### Test Driven Development
+
+While developing your app, keep an eye on all unit-test specs.
+
+![reporter][reporter-image]
+
+#### Test coverage
+
+See how much of your code is covered by well-written test scripts.
+
+![coverage][coverage-image]
+
+#### Supports Multiple layouts
+
+Not all the view templates follow the same layout. Use an intuitive way to structure the layouts and partials.
+
+![layouts][layouts-image]
 
 ## Directory Structure
 
@@ -168,3 +190,8 @@ For example:
   }  
 }
 ```
+
+[tech-stack]: https://cloud.githubusercontent.com/assets/508043/9190800/b12eb888-3fc7-11e5-97a2-2b1f44a89315.png
+[reporter-image]: https://cloud.githubusercontent.com/assets/508043/9190160/172fefc4-3fc0-11e5-97a0-6d52fbb495c3.png
+[coverage-image]: https://cloud.githubusercontent.com/assets/508043/9190201/8013b372-3fc0-11e5-94c5-f8cdfcc78b2b.png
+[layouts-image]:https://cloud.githubusercontent.com/assets/508043/9190288/77dd3222-3fc1-11e5-891e-be8e1cbf26ed.png
