@@ -8,7 +8,6 @@ var fs = require('fs'),
     olive = require('olive'),
     oliveOptions = olive.getOptions();
 
-
 function getFiles() {
   var wiredepOptions = {
     dependencies: true,
@@ -19,7 +18,8 @@ function getFiles() {
   // bower js files and application js file
   return wiredep(wiredepOptions).js
     .concat([
-      path.join(oliveOptions.paths.src, 'app/**/*.js')
+      path.join(oliveOptions.paths.src, 'app/**/*.js'),
+      path.join(oliveOptions.paths.src, '**/*.html')
     ]);
 }
 
@@ -49,6 +49,11 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: oliveOptions.paths.src + '/app/',
+      moduleName: 'app'
     },
 
     // test results reporter to use
@@ -84,6 +89,9 @@ module.exports = function(config) {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true
   };
+
+  // preprocessor for converting HTML files to AngularJS templates.
+  karmaConfig.preprocessors[oliveOptions.paths.src + '/**/*.html'] = ['ng-html2js'];
 
   // source files, that you wanna generate coverage for
   // do not include tests or libraries
