@@ -36,8 +36,7 @@
     .state('other', {
       url: '/other',
       templateUrl: 'pods/other/other.html',
-      controller: 'OtherController',
-      controllerAs: 'vm'
+      controller: 'OtherController'
     })
 
     */
@@ -49,8 +48,7 @@
       views: {
         'main': {
           templateUrl: 'pods/home/home.html',
-          controller: 'HomeController',
-          controllerAs: 'vm'
+          controller: 'HomeController'
         }
       }
     });

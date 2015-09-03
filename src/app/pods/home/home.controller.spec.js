@@ -4,17 +4,18 @@
 
   describe('HomeController', function() {
 
-    var vm;
+    var $scope;
 
     beforeEach(module('app'));
 
     beforeEach(inject(function($controller) {
-      vm = $controller('HomeController');
+      $scope = {};
+      $controller('HomeController', { $scope: $scope });
     }));
 
     it('- should have githubRepo object with a name attribute', function() {
-      expect(angular.isObject(vm.githubRepo)).toBeTruthy();
-      expect(typeof vm.githubRepo.name).toBe('string');
+      expect(angular.isObject($scope.githubRepo)).toBeTruthy();
+      expect(typeof $scope.githubRepo.name).toBe('string');
     });
 
   });

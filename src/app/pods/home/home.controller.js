@@ -4,14 +4,12 @@
 
   angular
     .module('app')
-    .controller('HomeController', function() {
+    .controller('HomeController', HomeController);
 
-      var vm = this;
-
-      vm.githubRepo = {
-        name: 'olivejs/seed-angular'
-      };
-
-    });
+  function HomeController($scope) {
+    $scope.githubRepo = {
+      name: 'olivejs/seed-angular'
+    };
+  }
 
 })();

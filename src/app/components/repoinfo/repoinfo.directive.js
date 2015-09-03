@@ -7,30 +7,25 @@
     .directive('repoinfo', repoinfo);
 
   function repoinfo(Github) {
-    var directive = {
+    return {
       restrict: 'A',
       templateUrl: 'components/repoinfo/repoinfo.html',
       scope: {
         repo: '='
       },
-      controller: RepoinfoController,
-      controllerAs: 'vm',
-      bindToController: true
+      controller: RepoinfoController
     };
 
-    return directive;
+    function RepoinfoController($scope, $log) {
 
-    function RepoinfoController($log) {
-      var vm = this;
+      $scope.repo.starsCount = '- -';
+      $scope.repo.forksCount = '- -';
 
-      vm.repo.starsCount = '- -';
-      vm.repo.forksCount = '- -';
-
-      Github.getRepo(vm.repo.name)
+      Github.getRepo($scope.repo.name)
         .then(function(data) {
-          vm.repo.url = data.html_url;
-          vm.repo.starsCount = data.stargazers_count;
-          vm.repo.forksCount = data.forks_count;
+          $scope.repo.url = data.html_url;
+          $scope.repo.starsCount = data.stargazers_count;
+          $scope.repo.forksCount = data.forks_count;
         })
         .catch(function(data) {
           $log.warn('GitHub: ' + data.message);

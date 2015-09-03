@@ -18,6 +18,7 @@ function getFiles() {
   // bower js files and application js file
   return wiredep(wiredepOptions).js
     .concat([
+      path.join(oliveOptions.paths.tmp, 'js/appinfo.js'),
       path.join(oliveOptions.paths.src, 'app/**/*.js'),
       path.join(oliveOptions.paths.src, '**/*.html')
     ]);

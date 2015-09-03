@@ -6,11 +6,11 @@
     .module('app')
     .run(runBlock);
 
-  function runBlock($log) {
+  function runBlock($log, $appInfo) {
 
     //--> Do your magic here
 
-    $log.debug('runBlock ends');
+    $log.debug($appInfo.name + ' ' + $appInfo.version);
   }
 
 })();

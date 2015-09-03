@@ -2,7 +2,9 @@
 
 'use strict';
 
-var olive = require('olive'),
+var pkg = require('./package.json'),
+    fs = require('fs'),
+    olive = require('olive'),
     path = require('path'),
     _ = require('lodash'),
     gulp = require('gulp'),
@@ -61,6 +63,20 @@ function injectCSP() {
 }
 
 /**
+ * Inject appinfo script
+ */
+function injectAppInfo() {
+  var injectAppInfoScriptTag = {
+    starttag: '<!-- inject:appinfo -->',
+    transform: function() {
+      var script = '<script src="js/appinfo.js"></script>';
+      return script;
+    }
+  };
+  return $.inject(gulp.src(''), injectAppInfoScriptTag);
+}
+
+/**
  * Run unit tests
  * @param  {Boolean}  singleRun If true, runs only once
  * @param  {Function} done      Callback function
@@ -99,6 +115,27 @@ function _reloadBrowser(path, event) {
   gutil.log(gutil.colors.cyan('Reloading Browsers...'));
   browserSync.reload(path);
 }
+
+/**
+ * Create appinfo.js file in ".tmp/js"
+ */
+gulp.task('appinfo', function() {
+  var tmpDir = path.join(options.paths.tmp);
+  var tmpJsDir = path.join(tmpDir, 'js');
+  var appInfoFile = path.join(tmpJsDir, 'appinfo.js');
+
+  var appName = pkg.name,
+      appVersion = pkg.version;
+
+  var scriptContent = 'appInfo={name:"' + appName + '",version:"' + appVersion + '"};';
+  if (!fs.existsSync(tmpDir)) {
+    fs.mkdirSync(tmpDir);
+  }
+  if (!fs.existsSync(tmpJsDir)) {
+    fs.mkdirSync(tmpJsDir);
+  }
+  fs.writeFileSync(appInfoFile, scriptContent);
+});
 
 /**
  * Inject @imports and compile Sass
@@ -167,7 +204,8 @@ gulp.task('inject', ['styles', 'lint'], function() {
   };
 
   return gulp.src(path.join(options.paths.src, '*.html'))
-    .pipe(injectCSP())
+    .pipe(injectCSP())                        // inject:csp
+    .pipe(injectAppInfo())                    // inject:appinfo
     .pipe($.inject(cssFiles, injectOptions))  // inject:css
     .pipe($.inject(jsFiles, injectOptions))   // inject:js
     .pipe(wiredep())                          // bower:css
@@ -247,7 +285,7 @@ gulp.task('watch', ['inject'], function() {
 /**
  * Serve via Browsersync
  */
-gulp.task('serve', ['setenv:development', 'clean:tmp', 'watch'], function() {
+gulp.task('serve', ['setenv:development', 'clean:tmp', 'appinfo', 'watch'], function() {
   var ports = options.ports || {};
   browserSync.init({
     port: ports.app || 3000,
@@ -415,6 +453,7 @@ gulp.task('assets', function() {
 gulp.task('build', [
   'setenv:production',
   'clean',
+  'appinfo',
   'app',
   'fonts',
   'assets'
