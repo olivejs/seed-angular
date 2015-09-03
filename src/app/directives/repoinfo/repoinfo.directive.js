@@ -9,7 +9,7 @@
   function repoinfo(Github) {
     return {
       restrict: 'A',
-      templateUrl: 'components/repoinfo/repoinfo.html',
+      templateUrl: 'directives/repoinfo/repoinfo.html',
       scope: {
         repo: '='
       },
