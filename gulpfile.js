@@ -297,9 +297,13 @@ gulp.task('serve', ['setenv:development', 'clean:tmp', 'appinfo', 'watch'], func
       routes: {
         '/bower_components': 'bower_components'
       },
-      middleware: modRewrite([
-        '!\\.\\w+$ /index.html [L]'
-      ])
+      middleware: [
+        modRewrite(['!\\.\\w+$ /index.html [L]']),
+        function (req, res, next) {
+          res.setHeader('X-UA-Compatible', 'IE=Edge');
+          next();
+        }
+      ]
     },
     notify: false,
     logLevel: 'silent'
