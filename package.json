@@ -15,6 +15,7 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp serve",
+    "clean": "gulp clean",
     "build": "gulp build"
   },
   "dependencies": {},

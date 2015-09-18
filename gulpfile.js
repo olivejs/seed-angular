@@ -335,14 +335,18 @@ gulp.task('clean:tmp', function() {
  * Delete dist directory
  */
 gulp.task('clean:dist', function() {
-  del.sync([options.paths.dist]);
+  del.sync([
+    options.paths.dist + '/**/*',
+    '!' + options.paths.dist + '/.gitkeep'
+  ], { dot: true });
 });
 
 /**
  * Delete both tmp and dist directories
  */
 gulp.task('clean', function() {
-  del.sync([options.paths.tmp, options.paths.dist]);
+  gulp.start('clean:tmp');
+  gulp.start('clean:dist');
 });
 
 /**
