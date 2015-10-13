@@ -14,25 +14,25 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-  <!-- build:css(.tmp) css/vendor.css -->
+  <!-- build:css({.tmp/build,src}) css/vendor.css -->
   <!-- bower:css -->
   <!-- bower stylesheets will be automatically inserted here -->
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:css(.tmp) css/app.css -->
+  <!-- build:css({.tmp/build,src}) css/app.css -->
   <!-- inject:css -->
   <!-- other stylesheets will be automatically inserted here -->
   <!-- endinject -->
   <!-- endbuild -->
 
 </head>
-<body>
+<body layout>
   <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div ui-view></div>
+  <div ui-view layout layout-fill></div>
 
   <!-- build:js(src) js/vendor.js -->
   <!-- bower:js -->
@@ -40,7 +40,7 @@
   <!-- endbower -->
   <!-- endbuild -->
 
-  <!-- build:js({.tmp,src/app}) js/app.js -->
+  <!-- build:js({.tmp/build,src/app}) js/app.js -->
   <!-- inject:appinfo -->
   <!-- appinfo scripts will be automatically inserted here -->
   <!-- endinject -->

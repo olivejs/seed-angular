@@ -4,9 +4,9 @@
 
   angular
     .module('app')
-    .directive('repoinfo', repoinfo);
+    .directive('repoinfo', repoinfoDirective);
 
-  function repoinfo(Github) {
+  function repoinfoDirective(Github, $log) {
     return {
       restrict: 'A',
       templateUrl: 'directives/repoinfo/repoinfo.html',
@@ -16,7 +16,7 @@
       controller: RepoinfoController
     };
 
-    function RepoinfoController($scope, $log) {
+    function RepoinfoController($scope) {
 
       $scope.repo.starsCount = '- -';
       $scope.repo.forksCount = '- -';

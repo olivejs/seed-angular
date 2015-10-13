@@ -6,7 +6,9 @@
 
 ## Usage
 
-Install gulp, bower and olive if you haven't already:
+#### Prepare
+
+Install `gulp`, `bower` and `olive` if you haven't already:
 ```
 npm install -g olive gulp bower
 ```
@@ -19,6 +21,9 @@ Install npm and bower dependencies:
 ```
 npm install && bower install
 ```
+
+#### Develop
+
 Start developing:
 ```
 npm start
@@ -45,12 +50,6 @@ While developing your app, keep an eye on all unit-test specs.
 See how much of your code is covered by well-written test scripts.
 
 ![coverage][coverage-image]
-
-#### Supports Multiple layouts
-
-Not all the view templates follow the same layout. Use an intuitive way to structure the layouts and partials.
-
-![layouts][layouts-image]
 
 ## Directory Structure
 

@@ -1,9 +1,7 @@
-.home {
- .jumbotron {
-   text-align: center;
-   padding: 20px;
-   img {
-     height: 100px;
-   }
- }
+.pod.home {
+  img {
+    display: block;
+    width: 30%;
+    max-width: 150px;
+  }
 }

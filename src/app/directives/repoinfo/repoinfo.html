@@ -1,8 +1,13 @@
 <div class="repo-info">
-  <a ng-href="{{repo.url}}/stargazers" class="btn btn-default">
-    Stars <span class="badge">{{repo.starsCount}}</span>
-  </a>
-  <a ng-href="{{repo.url}}/watchers" class="btn btn-default">
-    Forks <span class="badge">{{repo.forksCount}}</span>
-  </a>
+
+  <md-button ng-href="{{repo.url}}/stargazers" class="md-raised md-primary">
+    <md-icon md-svg-src="img/icons/star.svg"></md-icon>
+    {{repo.starsCount}} Stars
+  </md-button>
+
+  <md-button ng-href="{{repo.url}}/network/members" class="md-raised md-primary">
+    <md-icon md-svg-src="img/icons/fork.svg"></md-icon>
+    {{repo.forksCount}} Forks
+  </md-button>
+
 </div>

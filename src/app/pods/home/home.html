@@ -1,14 +1,41 @@
-<main class="home">
-  <div class="jumbotron">
-    <h2>Olive is ready!</h2>
-    <img src="img/olive.svg" alt="Olive">
-    <div repoinfo repo="githubRepo"></div>
-    <p>Learn more from the <a ng-href="{{githubRepo.url}}">documentation</a>.</p>
-    <p>
-      <button class="btn btn-lg btn-success" type="button">
-        Awesome!
-        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-      </button>
-    </p>
-  </div>
-</main>
+<div layout="column" flex class="pod home">
+
+  <md-toolbar ui-view="toolbar" class="md-whiteframe-z2">
+    <div class="md-toolbar-tools">
+      <md-button class="md-icon-button" aria-label="Settings">
+        <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+      </md-button>
+      <h2 flex>
+        <span>Hello Olive</span>
+      </h2>
+      <md-button class="md-icon-button" aria-label="More">
+        <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-content>
+    <md-card layout-align="center center">
+      <img src="img/olive.svg" alt="Olive">
+      <div repoinfo repo="githubRepo"></div>
+    </md-card>
+    <md-card>
+      <md-list>
+        <md-subheader class="md-no-sticky">App Info</md-subheader>
+        <md-list-item class="md-2-line">
+          <div class="md-list-item-text">
+            <h3>App Name:</h3>
+            <p>{{appInfo.name}}</p>
+          </div>
+        </md-list-item>
+        <md-list-item class="md-2-line">
+          <div class="md-list-item-text">
+            <h3>App Version:</h3>
+            <p>{{appInfo.version}}</p>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-card>
+  </md-content>
+
+</div>

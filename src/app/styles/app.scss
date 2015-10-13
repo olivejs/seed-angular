@@ -1,13 +1,6 @@
 /**
- *  If you want to override some bootstrap variables, change those values here.
- *  The list of variables are listed here:
- *  bower_components/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss
- */
-@import 'overrides';
-
-/**
- *  Do not remove the comments bellow. It is the marker used by wiredep
- *  to inject sass dependencies that are defined in the bower.json file.
+ * Do not remove the comments bellow. It is the marker used by wiredep
+ * to inject sass dependencies that are defined in the bower.json file.
  */
 // bower:scss
 // endbower
@@ -16,24 +9,15 @@
  * Import generic styles here from `styles` directory, i.e. base styles, icons,
  * typography, that are not specific to individual page templates or directives.
  */
-@import 'type';
+@import
+  'base',
+  'type',
+  'overrides';
 
 /**
- * Beside imports, you can also add styles here.
- */
-
-// Browser Upgrade Prompt
-.browserupgrade {
-  margin: 0.2em;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0.5em;
-}
-
-/**
- *  Do not remove the comments bellow. It is the marker used by gulp-inject
- *  to inject sass files from outside `styles` directory, that are specific to
- *  individual page templates or directives.
+ * Do not remove the comments bellow. It is the marker used by gulp-inject
+ * to inject sass files from outside `styles` directory, that are specific to
+ * individual page templates or directives.
  */
 // inject:scss
 // endinject

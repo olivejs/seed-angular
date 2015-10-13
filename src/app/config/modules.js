@@ -4,7 +4,9 @@
 
   angular
     .module('app', [
-      'ui.router',
+      'ngMaterial',
+      'ngTouch',
+      'ui.router'
       // Add your dependencies here
     ]);
 

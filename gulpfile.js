@@ -14,10 +14,11 @@ var pkg = require('./package.json'),
     browserSync = require('browser-sync'),
     modRewrite = require('connect-modrewrite'),
     del = require('del'),
+    mkdirp = require('mkdirp'),
     karma = require('karma'),
     tinylr = require('tiny-lr')(),
     opn = require('opn'),
-    options = olive.getOptions(),
+    options,
     $ = require('gulp-load-plugins')({
       pattern: ['gulp-*', 'main-bower-files']
     });
@@ -36,6 +37,14 @@ function getenv() {
  */
 function setenv(env) {
   process.env.NODE_ENV = env;
+  getOptions();
+}
+
+/**
+ * Retrieve olive options
+ */
+function getOptions() {
+  options = olive.getOptions();
 }
 
 /**
@@ -117,23 +126,17 @@ function _reloadBrowser(path, event) {
 }
 
 /**
- * Create appinfo.js file in ".tmp/js"
+ * Create `appinfo.js` file in `js` directory under tmp path
  */
 gulp.task('appinfo', function() {
-  var tmpDir = path.join(options.paths.tmp);
-  var tmpJsDir = path.join(tmpDir, 'js');
+  var tmpJsDir = path.join(options.paths.tmp, 'js');
   var appInfoFile = path.join(tmpJsDir, 'appinfo.js');
 
   var appName = pkg.name,
       appVersion = pkg.version;
 
   var scriptContent = 'appInfo={name:"' + appName + '",version:"' + appVersion + '"};';
-  if (!fs.existsSync(tmpDir)) {
-    fs.mkdirSync(tmpDir);
-  }
-  if (!fs.existsSync(tmpJsDir)) {
-    fs.mkdirSync(tmpJsDir);
-  }
+  mkdirp.sync(tmpJsDir);
   fs.writeFileSync(appInfoFile, scriptContent);
 });
 
@@ -328,7 +331,8 @@ gulp.task('test:auto', ['setenv:test', 'watch'], function() {
  * Delete tmp directory
  */
 gulp.task('clean:tmp', function() {
-  del.sync([options.paths.tmp]);
+  del.sync(options.paths.tmp);       // delete tmp dir
+  mkdirp.sync(options.paths.tmp);    // recreate it (empty)
 });
 
 /**
@@ -412,7 +416,6 @@ gulp.task('app', ['inject', 'templates'], function() {
     .pipe($.uglify().on('error', errorHandler('Uglify')))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
-    .pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../fonts/'))
     .pipe($.minifyCss({
       processImport: false,
       keepSpecialComments: false
