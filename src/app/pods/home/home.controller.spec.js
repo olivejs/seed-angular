@@ -18,11 +18,11 @@
       expect(typeof $scope.githubRepo.name).toBe('string');
     });
 
-    it('- should have appInfo object with a name and version attributes', function() {
-      expect(angular.isObject($scope.appInfo)).toBeTruthy();
-      expect(typeof $scope.appInfo.name).toBe('string');
-      expect(typeof $scope.appInfo.version).toBe('string');
-    });
+    // it('- should have appInfo object with a name and version attributes', function() {
+    //   expect(angular.isObject($scope.appInfo)).toBeTruthy();
+    //   expect(typeof $scope.appInfo.name).toBe('string');
+    //   expect(typeof $scope.appInfo.version).toBe('string');
+    // });
 
   });
 

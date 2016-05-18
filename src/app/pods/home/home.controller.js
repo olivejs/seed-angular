@@ -4,9 +4,9 @@
 
   angular
     .module('app')
-    .controller('HomeController', HomeController);
+    .controller('HomeController', controller);
 
-  function HomeController($scope, $appInfo) {
+  function controller($scope, $appInfo) {
     $scope.githubRepo = {
       name: 'olivejs/seed-angular'
     };

@@ -4,9 +4,9 @@
 
   angular
     .module('app')
-    .directive('repoinfo', repoinfoDirective);
+    .directive('repoinfo', directive);
 
-  function repoinfoDirective(Github, $log) {
+  function directive(Github, $log) {
     return {
       restrict: 'A',
       templateUrl: 'directives/repoinfo/repoinfo.html',

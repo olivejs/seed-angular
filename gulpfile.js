@@ -91,12 +91,13 @@ function injectAppInfo() {
  * @param  {Function} done      Callback function
  */
 function runUnitTests(singleRun, done) {
-  karma.server.start({
+  var server = new karma.Server({
     configFile: path.join(__dirname, 'karma.conf.js'),
     singleRun: singleRun,
     autoWatch: !singleRun,
     reporters: singleRun ? ['mocha', 'coverage'] : ['html']
   }, done);
+  server.start();
 }
 
 /**
@@ -416,7 +417,7 @@ gulp.task('app', ['inject', 'templates'], function() {
     .pipe($.uglify().on('error', errorHandler('Uglify')))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
-    .pipe($.minifyCss({
+    .pipe($.cleanCss({
       processImport: false,
       keepSpecialComments: false
     }))
