@@ -1,12 +1,14 @@
 # AngularJS Seed
 
-> Olive seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices.
+> Olive seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices. It include all goodies you need all the way from testing to production with a faster, automated and productive development environment.
 
 ![tech-stack][tech-stack]
 
 ## Usage
 
-#### Prepare
+Note that, if you're just scaffolding an app you **DO NOT clone** this repo. Just follow the instruction below:
+
+### Prepare
 
 Install `gulp`, `bower` and `olive` if you haven't already:
 ```
@@ -22,7 +24,7 @@ Install npm and bower dependencies:
 npm install && bower install
 ```
 
-#### Develop
+### Develop
 
 Start developing:
 ```
@@ -39,13 +41,13 @@ npm run build
 
 ## Features
 
-#### Test Driven Development
+### Test Driven Development
 
 While developing your app, keep an eye on all unit-test specs.
 
 ![reporter][reporter-image]
 
-#### Test coverage
+### Test coverage
 
 See how much of your code is covered by well-written test scripts.
 
@@ -149,7 +151,7 @@ Default options:
 ```
 These default options can be overridden. You can also include additional options from the following:
 
-#### Ports
+### Ports
 
 For example:
 ```
@@ -165,7 +167,7 @@ For example:
 - `bs`: BrowserSync UI control panel can be accessed via this port (i.e. http://localhost:3001)
 - `karma`: Karma tests report page is served via this port (i.e. http://localhost:3002/debug.html)
 
-#### Content Security Policy
+### Content Security Policy
 
 For example:
 ```
