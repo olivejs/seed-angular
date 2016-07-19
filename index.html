@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Seed-angular by olivejs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Seed-angular</h1>
+      <h2 class="project-tagline">Quickly scaffold an AngularJS project with pragmatic defaults and best practices</h2>
+      <a href="https://github.com/olivejs/seed-angular" class="btn">View on GitHub</a>
+      <a href="https://github.com/olivejs/seed-angular/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/olivejs/seed-angular/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="angularjs-seed" class="anchor" href="#angularjs-seed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AngularJS Seed</h1>
+
+<blockquote>
+<p>Olive seed for AngularJS - offers you quickly scaffold an AngularJS project with pragmatic defaults and best practices. It include all goodies you need all the way from testing to production with a faster, automated and productive development environment.</p>
+</blockquote>
+
+<p><img src="https://cloud.githubusercontent.com/assets/508043/9190800/b12eb888-3fc7-11e5-97a2-2b1f44a89315.png" alt="tech-stack"></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Note that, if you're just scaffolding an app you <strong>DO NOT clone</strong> this repo. Just follow the instruction below:</p>
+
+<h3>
+<a id="prepare" class="anchor" href="#prepare" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prepare</h3>
+
+<p>Install <code>gulp</code>, <code>bower</code> and <code>olive</code> if you haven't already:</p>
+
+<pre><code>npm install -g olive gulp bower
+</code></pre>
+
+<p>Create your project from this Angular seed using Olive CLI:</p>
+
+<pre><code>mkdir myapp &amp;&amp; cd myapp
+olive new angular
+</code></pre>
+
+<p>Install npm and bower dependencies:</p>
+
+<pre><code>npm install &amp;&amp; bower install
+</code></pre>
+
+<h3>
+<a id="develop" class="anchor" href="#develop" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Develop</h3>
+
+<p>Start developing:</p>
+
+<pre><code>npm start
+</code></pre>
+
+<p>Run test once and generate code coverage reports in <code>coverage</code> directory.</p>
+
+<pre><code>npm test
+</code></pre>
+
+<p>Build for production:</p>
+
+<pre><code>npm run build
+</code></pre>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<h3>
+<a id="test-driven-development" class="anchor" href="#test-driven-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test Driven Development</h3>
+
+<p>While developing your app, keep an eye on all unit-test specs.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/508043/9190160/172fefc4-3fc0-11e5-97a0-6d52fbb495c3.png" alt="reporter"></p>
+
+<h3>
+<a id="test-coverage" class="anchor" href="#test-coverage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test coverage</h3>
+
+<p>See how much of your code is covered by well-written test scripts.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/508043/9190201/8013b372-3fc0-11e5-94c5-f8cdfcc78b2b.png" alt="coverage"></p>
+
+<h2>
+<a id="directory-structure" class="anchor" href="#directory-structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Directory Structure</h2>
+
+<pre><code>├─src/
+│ ├─app/
+│ │ ├─components/
+│ │ │ └─navbar/
+│ │ │   ├─repoinfo.directive.js
+│ │ │   ├─repoinfo.html
+│ │ │   └─repoinfo.scss
+│ │ ├─config/
+│ │ │ ├─modules.js
+│ │ │ ├─routes.js
+│ │ │ └─run.js
+│ │ ├─layouts/
+│ │ │ └─default/
+│ │ │   ├─default.html
+│ │ │   └─default.scss
+│ │ ├─partials/
+│ │ │ ├─footer/
+│ │ │ │ ├─footer.html
+│ │ │ │ └─footer.scss
+│ │ │ └─header/
+│ │ │   ├─header.html
+│ │ │   └─header.scss
+│ │ ├─pods/
+│ │ │ └─home/
+│ │ │   ├─home.controller.js
+│ │ │   ├─home.controller.spec.js
+│ │ │   ├─home.html
+│ │ │   └─home.scss
+│ │ ├─services/
+│ │ │ └─github
+│ │ │   └─github.service.js
+│ │ ├─styles/
+│ │ │ ├─_overrides.scss
+│ │ │ ├─_type.scss
+│ │ │ └─app.scss
+│ │ └─app.js
+│ ├─assets/
+│ │ ├─img/
+│ │ ├─fonts/
+│ │ ├─apple-touch-icon.png
+│ │ └─favicon.ico
+│ └─index.html
+├─dist/
+├─.tmp/
+├─bower_components/
+├─node_modules/
+├─.bowerrc
+├─.editorconfig
+├─.gitattributes
+├─.gitignore
+├─.jscsrc
+├─.jshintrc
+├─.oliverc
+├─bower.json
+├─gulpfile.js
+├─karma.conf.js
+├─package.json
+└─README.md
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>File/Directory</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>src/</td>
+<td>Contains your Angular application code.</td>
+</tr>
+<tr>
+<td>dist/</td>
+<td>Contains the distributable (that is, optimized and self-contained) output of your application. Deploy this to your server!</td>
+</tr>
+<tr>
+<td>.tmp/</td>
+<td>Various temporary output of build steps, as well as the debug output of your application.</td>
+</tr>
+<tr>
+<td>bower_components/</td>
+<td>Bower dependencies.</td>
+</tr>
+<tr>
+<td>node_modules</td>
+<td>Node modules required for development purpose.</td>
+</tr>
+<tr>
+<td>.bowerrc</td>
+<td>Bower configuration.</td>
+</tr>
+<tr>
+<td>.editorconfig</td>
+<td>EditorConfig file.</td>
+</tr>
+<tr>
+<td>.oliverc</td>
+<td>Olive configuration.</td>
+</tr>
+<tr>
+<td>.gitattributes</td>
+<td>Definition for Git attributes.</td>
+</tr>
+<tr>
+<td>.gitignore</td>
+<td>Git configuration for ignored files.</td>
+</tr>
+<tr>
+<td>.jscsrc</td>
+<td>JavaScript code style configuration.</td>
+</tr>
+<tr>
+<td>.jshintrc</td>
+<td>JSHint configuration.</td>
+</tr>
+<tr>
+<td>.oliverc</td>
+<td>Olive configuration.</td>
+</tr>
+<tr>
+<td>bower.json</td>
+<td>Bower configuration and dependency list.</td>
+</tr>
+<tr>
+<td>gulpfile.js</td>
+<td>Contains build specification for Gulp.</td>
+</tr>
+<tr>
+<td>karma.conf.js</td>
+<td>Karma configuration.</td>
+</tr>
+<tr>
+<td>package.json</td>
+<td>NPM configuration. Mainly used to list the dependencies needed for asset compilation.</td>
+</tr>
+<tr>
+<td>README.md</td>
+<td>This documentation.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="oliverc" class="anchor" href="#oliverc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>.oliverc</h2>
+
+<p>Default options:</p>
+
+<pre><code>{
+  "paths": {
+    "src": "src",
+    "tmp": ".tmp",
+    "dist": "dist"
+  }
+}
+</code></pre>
+
+<p>These default options can be overridden. You can also include additional options from the following:</p>
+
+<h3>
+<a id="ports" class="anchor" href="#ports" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ports</h3>
+
+<p>For example:</p>
+
+<pre><code>{
+  "ports": {
+    "app": 3000,
+    "bs": 3001,
+    "karma": 3002
+  }
+}
+</code></pre>
+
+<ul>
+<li>
+<code>app</code>: The app will be served via this port (i.e. http://localhost:3000)</li>
+<li>
+<code>bs</code>: BrowserSync UI control panel can be accessed via this port (i.e. http://localhost:3001)</li>
+<li>
+<code>karma</code>: Karma tests report page is served via this port (i.e. http://localhost:3002/debug.html)</li>
+</ul>
+
+<h3>
+<a id="content-security-policy" class="anchor" href="#content-security-policy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content Security Policy</h3>
+
+<p>For example:</p>
+
+<pre><code>{
+  "content-security-policy": {
+    "development": {
+      "default-src": "'unsafe-inline' 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'",
+      "style-src": "'self' 'unsafe-inline'",
+      "media-src": "*",
+      ...
+      "other-directive": "other-source"
+    },
+    "production": {
+      "default-src": "'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'",
+      "style-src": "'self' 'unsafe-inline'",
+      "media-src": "*"
+    },
+    "other-env": {
+      ...
+    }
+  }  
+}
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/olivejs/seed-angular">Seed-angular</a> is maintained by <a href="https://github.com/olivejs">olivejs</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
